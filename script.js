@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 	});
 
 	// When stage is clicked (remember, events bubble!)
-	stage.on('click', function(e) {
+	stage.on('click tap', function(e) {
 
 		// If the background was clicked
 		if (e.target === background) {
