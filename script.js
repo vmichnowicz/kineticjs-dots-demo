@@ -133,6 +133,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
 				fill: getRandomColor()
 			});
 
+			var arc = new Kinetic.Arc({
+				innerRadius: 0,
+				outerRadius: 5,
+				fill: getRandomColor(),
+				angle: 36,
+				rotationDeg: -90,
+				listening: false // No need for this to listen for events
+			});
+
 			// Make sure dot text is centered
 			text.offset({
 				x: Math.round(text.width() / 2),
@@ -140,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 			});
 
 			dot.add(circle); // Add dot circle to dot group
+			dot.add(arc);
 			dot.add(text); // Add dot text to dot group
 
 			middle.add(dot); // Add dot group to middle layer
@@ -149,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 			var dot = e.target.getParent(), // Dot group
 				text = dot.find('Text')[0], // Dot text
 				circle = dot.find('Circle')[0], // Dot circle
+				arc = dot.find('Arc')[0], // Dot arc
 				number = parseInt( text.getText() ) + 1; // Calculate how many times this dot has been clicked
 
 			// If this dot has been clicked more than 10 times
@@ -209,11 +220,19 @@ document.addEventListener("DOMContentLoaded", function(e) {
 					easing: Kinetic.Easings.Linear // @url http://kineticjs.com/docs/Kinetic.Easings.html
 				});
 
+				var tweenArc = new Kinetic.Tween({
+					node: arc,
+					duration: .5, // Duration of tween in seconds
+					angle: arc.getAttr('angle') + 36,
+					outerRadius: circle.getAttr('radius') - 5,
+					easing: Kinetic.Easings.BackEaseOut // @url http://kineticjs.com/docs/Kinetic.Easings.html
+				})
+
 				tweenCircle.play();
 				tweenText.play();
+				tweenArc.play();
 			}
 		}
-
 	});
 
 	stage.draw();
