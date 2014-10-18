@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 			// If there are more than 10 dots
 			if (middle.getChildren().length > 10) {
 				var firstDot = middle.getChildren()[0], // Get the oldest dot (Kinetic.Group)
+					firstArc = firstDot.find('Arc')[0], // Get the oldest dot circle (Kinetic.Circle)
 					firstCircle = firstDot.find('Circle')[0], // Get the oldest dot circle (Kinetic.Circle)
 					firstText = firstDot.find('Text')[0]; // Get the oldest dot text (Kinetic.Text)
 
@@ -106,8 +107,16 @@ document.addEventListener("DOMContentLoaded", function(e) {
 					easing: Kinetic.Easings.BounceEaseOut
 				});
 
+				var tweenArc = new Kinetic.Tween({
+					node: firstArc,
+					duration: .5,
+					outerRadius: 0,
+					easing: Kinetic.Easings.BounceEaseOut
+				});
+
 				tweenCircle.play();
 				tweenText.play();
+				tweenArc.play();
 			}
 
 			// New dot group
