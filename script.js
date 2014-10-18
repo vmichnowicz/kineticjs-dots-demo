@@ -121,10 +121,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
 			// New dot text
 			var text = new Kinetic.Text({
 				text: '1',
-				fontFamily: 'cursive',
+				fontStyle: 'bold',
 				fontSize: 13,
 				fill: 'white',
-				listening: false // No need for this to listen for events
+				listening: false, // No need for this to listen for events
+				shadowColor: 'black',
+				shadowBlur: 2,
+				shadowOffset: { x: 1, y: 1 },
+				shadowOpacity: 0.5
 			});
 
 			// New dot circle
@@ -208,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 				var tweenCircle = new Kinetic.Tween({
 					node: circle,
 					duration: .5, // Duration of tween in seconds
-					radius: circle.getAttr('radius') + 5, // Any numeric property such as x, y, rotation, width, height, radius, etc...
+					radius: 10 + (2 * number), // Any numeric property such as x, y, rotation, width, height, radius, etc...
 					easing: Kinetic.Easings.BackEaseOut // @url http://kineticjs.com/docs/Kinetic.Easings.html
 				});
 
@@ -216,14 +220,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
 				var tweenText = new Kinetic.Tween({
 					node: text,
 					duration: .5, // Duration of tween in seconds
-					rotation: circle.getAttr('rotation') + 45,
+					rotation: 36 * number,
 					easing: Kinetic.Easings.Linear // @url http://kineticjs.com/docs/Kinetic.Easings.html
 				});
 
 				var tweenArc = new Kinetic.Tween({
 					node: arc,
 					duration: .5, // Duration of tween in seconds
-					angle: arc.getAttr('angle') + 36,
+					angle: 36 * number,
 					outerRadius: circle.getAttr('radius') - 5,
 					easing: Kinetic.Easings.BackEaseOut // @url http://kineticjs.com/docs/Kinetic.Easings.html
 				})
@@ -236,4 +240,17 @@ document.addEventListener("DOMContentLoaded", function(e) {
 	});
 
 	stage.draw();
+
+	var hit = document.getElementById('hit');
+
+	// Update image of middle layer hit canvas every second
+	setInterval(function() {
+		var img = middle.getHitCanvas() ? middle.getHitCanvas()._canvas.toDataURL('image/png') : null;
+
+		if (img) {
+			hit.src = img;
+		}
+	}, 1000);
+
+
 });
